@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Studio 52</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="mt-4">
+        <h1 class="text-center">Calendario Studio 52</h1>
+    </header>
+    <main class="m-auto" style="min-width: 400px; max-width: 95vw;">
+      <div class="d-flex justify-content-end">
+        <a href="./crea-eventi" class="me-4 d-none" id="new-event-a">Crea un nuovo evento</a>
+        <a href="./profilo">Il mio profilo</a>
+      </div>
+      <div class="d-flex justify-content-center">
+          <div class="legend-item">
+              <span class="color-circle" style="background-color: var(--bs-blue);"></span> Live
+          </div>
+          <div class="legend-item">
+              <span class="color-circle" style="background-color: orangered;"></span> Coworking
+          </div>
+          <div class="legend-item">
+              <span class="color-circle" style="background-color: purple;"></span> Produzione
+          </div>
+          <div class="d-flex align-center">
+              <span class="color-circle" style="background-color: darkcyan;"></span> Video
+          </div>
+      </div>
+
+      <div id="calendar"></div>
+
+    </main>
+
+    <!-- Modale per i live -->
+    <div class="modal fade" id="live-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Comunica la disponibilità</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3 id="live-modal-title"></h3>
+              <p id="live-modal-desc"></p>
+              <p id="live-chosen"></p>
+              <span class="d-none" id="live-modal-id"></span>
+              <hr>
+              <div>
+                <h5>Le disponibilità che hai dato</h5>
+                <ul id="disp-list"></ul>
+              </div>
+              <hr>
+              <div class="mb-3">
+                <h5>Comunica una disponibilità</h5>
+                <label for="" class="form-label">Nome artista/band</label>
+                <input type="text" class="form-control" id="live-name">
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+              <button type="button" class="btn btn-primary" id="live-send">Invia</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modale per le promo -->
+      <div class="modal fade" id="promo-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Prenota</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3 id="promo-modal-title"></h3>
+              <p id="promo-modal-desc"></p>
+              <span class="d-none" id="promo-modal-id"></span>
+
+              <div class="mb-3">
+                <label for="" class="form-label">Ora di inizio</label>
+                <input type="time" class="form-control" id="promo-start">
+                <label for="exampleFormControlTextarea1" class="form-label mt-2">Ora di fine</label>
+                <input type="time" class="form-control" id="promo-end">
+              </div>
+              <div class="mb-3">
+                <label for="" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="promo-name">
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+              <button type="button" class="btn btn-primary" id="promo-send">Prenota</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modale se non autenticato -->
+      <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Accedi</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3 id="modal-title">Accedi per interagire con gli eventi</h3>
+              <span><a href="/accedi">Accedi</a> oppure <a href="/iscrivi">registrati</a></span> 
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="main.js"></script>
+
+</body>
+</html>
