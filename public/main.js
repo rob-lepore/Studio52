@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         events: "/api/events/all",
         eventClick: (info) => {
             if(admin) {
-                location.href = "/gestisci_live?id=" +info.event.extendedProps._id;
+                location.href = "/gestisci-live?id=" +info.event.extendedProps._id;
                 return;
             }
             if(!logged) {
