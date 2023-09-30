@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-app.use(express.static("public"));
+//app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -24,8 +24,8 @@ app.listen(port, () => {
     console.log("listening on " + port );
 });
 
-const User = require('./models/user');
-const Event = require('./models/event');
+const User = require('../models/user');
+const Event = require('../models/event');
 
 app.post("/api/users/create", (req, res) => {
     try {
@@ -250,3 +250,7 @@ app.delete('/api/events/:eventId/artists/:artistId', async (req, res) => {
     res.status(500).json({ error: 'Errore durante l\'eliminazione dell\'artista dall\'evento' });
   }
 });
+
+
+
+module.exports = app;
