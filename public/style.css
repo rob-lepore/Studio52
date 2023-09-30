@@ -9,23 +9,23 @@ a.fc-event {
     color: var(--fc-event-text-color);
 }
 
+.fc-toolbar-title {
+    display: none;
+}
+
 .legend-item {
     display: flex;
     align-items: center;
-    margin-right: 20px; /* Spazio tra le tipologie */
+    /*margin-right: 20px; /* Spazio tra le tipologie */
 }
 
 .color-circle {
-    width: 20px;
-    height: 20px;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%; /* Per rendere il colore un cerchio */
-    margin-right: 5px; /* Spazio tra il colore e il testo */
+    margin-right: 2px;  /*Spazio tra il colore e il testo */
 }
 
-#calendar {
-    /*max-width: 50%;*/
-    margin: 20px auto;
-}
 
 
 .work-event {
@@ -42,3 +42,10 @@ a.fc-event {
     background-color: darkcyan;
     border-color: darkcyan;
 }
+
+@media screen and (max-width: 768px) {
+    /* Stili specifici per dispositivi mobili */
+    body {
+      font-size: 12px;
+    }
+  }

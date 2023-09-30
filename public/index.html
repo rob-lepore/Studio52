@@ -13,15 +13,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="mt-4">
+    <header class="mt-4 w-100">
         <h1 class="text-center">Calendario Studio 52</h1>
-    </header>
-    <main class="m-auto" style="min-width: 400px; max-width: 95vw;">
-      <div class="d-flex justify-content-end">
-        <a href="/crea-eventi" class="me-4 d-none" id="new-event-a">Crea un nuovo evento</a>
-        <a href="/profilo">Il mio profilo</a>
-      </div>
-      <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-between m-auto px-1" style="max-width: 300px;">
           <div class="legend-item">
               <span class="color-circle" style="background-color: var(--bs-blue);"></span> Live
           </div>
@@ -31,14 +25,23 @@
           <div class="legend-item">
               <span class="color-circle" style="background-color: purple;"></span> Produzione
           </div>
-          <div class="d-flex align-center">
+          <div class="legend-item">
               <span class="color-circle" style="background-color: darkcyan;"></span> Video
           </div>
       </div>
+    </header>
 
-      <div id="calendar"></div>
-
+    <main class="m-auto" style="max-width: 95vw; overflow-x: auto;">
+      <h3 id="cal-title" class="mt-3"></h3>
+      <div id="calendar" class="mx-auto"></div>
     </main>
+
+    <footer class="mt-2" style="max-width: 95vw;">
+      <div class="d-flex justify-content-end">
+        <a href="/crea-eventi" class="me-4 d-none" id="new-event-a">Crea un nuovo evento</a>
+        <a href="/profilo">Il mio profilo</a>
+      </div>
+    </footer>
 
     <!-- Modale per i live -->
     <div class="modal fade" id="live-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -126,6 +129,7 @@
           </div>
         </div>
       </div>
+
 
       <script src="main.js"></script>
 

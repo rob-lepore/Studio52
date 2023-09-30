@@ -95,14 +95,15 @@ function getEventInfos() {
                 Utente: ${artist.username}<br>
                 Email: ${artist.email}<br>
                 Telefono: ${artist.phone}<br>
-                
             `;
+            let buttons = document.createElement("div"); 
+            buttons.classList.add("d-flex", "mt-2", "align-items-center")
 
-            if (!artist.chosen) artistItem.innerHTML += `<button class="btn btn-primary" onclick="choose('${artist._id}')">Scegli</button>`
-            else artistItem.innerHTML += `<p class="text-success">Scelto</p>`
+            if (!artist.chosen) buttons.innerHTML += `<button class="btn btn-primary mr-2" onclick="choose('${artist._id}')">Scegli</button>`
+            else buttons.innerHTML += `<span class="text-success mr-2">Scelto</span>`
 
-            artistItem.innerHTML += `<a class="text-danger mx-5" onclick="deleteArtist('${artist._id}')">Elimina</a>`
-
+            buttons.innerHTML += `<a class="text-danger" onclick="deleteArtist('${artist._id}')">Elimina</a>`
+            artistItem.appendChild(buttons);
             // Aggiungi l'elemento artista alla lista
             artistsList.appendChild(artistItem);
         });

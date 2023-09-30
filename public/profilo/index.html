@@ -6,6 +6,7 @@
     <title>Profilo Utente</title>
     <!-- Collega Bootstrap (assicurati di inserire il percorso corretto) -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/profilo/style.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -16,14 +17,15 @@
                         <h2>Profilo Utente</h2>
                     </div>
                     <div class="card-body">
-                        <h4>Informazioni Utente</h4>
+                        <h4>Informazioni</h4>
                         <p><strong>Nome:</strong> <span id="name"></span></p>
                         <p><strong>Email:</strong> <span id="email"></span></p>
                         <p><strong>Numero di Cellulare:</strong> <span id="phone"></span></p>
 
-                        <!-- Aggiungi altri dettagli del profilo qui -->
-                        <button class="btn btn-danger" onclick="logout()">Esci dal profilo</button>
-                        <a href="/">Vai al calendario</a>
+                        <div class="d-flex justify-content-between" id="foot">
+                            <button class="btn btn-danger" onclick="logout()">Esci dal profilo</button>
+                            <a class="btn btn-link mt-2" href="/">Vai al calendario</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,6 +36,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="profilo/script.js"></script>
+    <script src="/profilo/script.js"></script>
 </body>
 </html>

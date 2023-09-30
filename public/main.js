@@ -34,7 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: false,
         slotEventOverlap: true,
         headerToolbar:{
-            right: "timeGridWeek,dayGridMonth,prev,next"
+            center: "timeGridWeek,dayGridMonth",
+            left: "title,prev",
+            right: "next"
+        },
+        buttonText: {
+            month: "mese",
+            week: "settimana",
         },
         events: "/api/events/all",
         eventClick: (info) => {
@@ -89,6 +95,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
+
+    function updateTitle() {
+        document.querySelector("#cal-title").textContent = document.querySelector("#fc-dom-1").textContent
+    }
+    updateTitle();
+
+    document.querySelector("button.fc-next-button").addEventListener("click",updateTitle);
+    document.querySelector("button.fc-prev-button").addEventListener("click",updateTitle);
+    document.querySelector("button.fc-timeGridWeek-button").addEventListener("click",updateTitle);
+    document.querySelector("button.fc-dayGridMonth-button").addEventListener("click",updateTitle);
+
 });
 
 
