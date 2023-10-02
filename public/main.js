@@ -44,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         events: "/api/events/all",
         eventClick: (info) => {
+            console.log(new Date(info.event._instance.range.start).getDate())
             if(admin) {
-                location.href = "/gestisci-live?id=" +info.event.extendedProps._id;
+                if(info.event.classNames.includes("live-event"))
+                    location.href = "/gestisci-live?id=" +info.event.extendedProps._id;
+                else
+                    location.href = "/gestisci-promo?id=" +info.event.extendedProps._id;
                 return;
             }
             if(!logged) {
@@ -54,9 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             else if(info.event.classNames.includes("live-event")){
                 const artists = info.event.extendedProps.artists.filter(a => a.chosen)
-                
                 const myModal = new bootstrap.Modal('#live-modal')
-                document.querySelector("#live-modal-title").textContent = info.event.title;
+
+                const date = new Date(info.event._instance.range.start);
+                const day = date.getDate().toString().padStart(2, "0") + "/" + (date.getMonth()+1).toString().padStart(2, "0")
+                
+                document.querySelector("#live-modal-title").textContent = info.event.title + " -- " +day;
                 document.querySelector("#live-modal-desc").textContent = info.event.extendedProps.description;
                 if(artists.length > 0)
                     document.querySelector("#live-chosen").innerHTML = "Artista scelto: <b>"+artists[0].name+"</b>";
@@ -78,7 +85,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 myModal.toggle();
             } else {
                 const myModal = new bootstrap.Modal('#promo-modal')
-                document.querySelector("#promo-modal-title").textContent = info.event.title;
+                const date = new Date(info.event._instance.range.start);
+                const dateEnd = new Date(info.event._instance.range.end);
+                const day = date.getDate().toString().padStart(2, "0") + "/" + (date.getMonth()+1).toString().padStart(2, "0")
+                
+                document.querySelector("#promo-modal-title").textContent = info.event.title + " -- " + day;
+                document.querySelector("#promo-modal-disp").textContent = "Dalle " + date.getHours().toString().padStart(2, "0") + ":" + date.getMinutes().toString().padStart(2, "0") + " alle " + dateEnd.getHours().toString().padStart(2, "0") + ":" + dateEnd.getMinutes().toString().padStart(2, "0");
                 document.querySelector("#promo-modal-desc").textContent = info.event.extendedProps.description;
                 document.querySelector("#promo-modal-id").textContent = info.event.extendedProps._id;
                 myModal.toggle();
@@ -138,3 +150,20 @@ function deleteDispo(artistId, eventId) {
     })
     
 }
+
+
+document.querySelector("#promo-send").addEventListener("click", (e) => {
+    e.preventDefault();
+    const name = document.querySelector("#promo-name").value;
+    const eventId = document.querySelector("#promo-modal-id").textContent
+    const start = document.querySelector("#promo-start").value;
+    const end = document.querySelector("#promo-end").value;
+    
+    console.log({name, eventId, start, end})
+    /* fetch("/api/events/add_artist?name="+name+"&event="+eventId).then(res => res.json()).then(data => {
+        document.querySelector("#live-name").value = "";
+        alert(data.message);
+        location.reload();
+    }) */
+
+})

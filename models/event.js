@@ -48,6 +48,10 @@ const eventSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  available: {
+    type: Boolean,
+    default: true,
+  },
   artists: [artistSchema], // Lista di disponibilità
 
 });
