@@ -37,7 +37,6 @@ const eventSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
     default: "Nessuna descrizione disponibile",
   },
   classNames: {

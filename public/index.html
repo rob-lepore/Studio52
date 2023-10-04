@@ -93,7 +93,7 @@
 
               <div class="mb-3">
                 <label for="promo-start" class="form-label">Ora di inizio</label>
-                <input type="time" class="form-control" id="promo-start">
+                <input type="time" class="form-control" id="promo-start" min="10:00" step="1800">
                 <label for="promo-end" class="form-label mt-2">Ora di fine</label>
                 <input type="time" class="form-control" id="promo-end">
               </div>
@@ -126,6 +126,28 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modale prenotazione -->
+      <div class="modal fade" id="res-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Riepilogo</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <span id="res-modal-id" class="d-none"></span>
+              <h3>La tua prenotazione</h3>
+              <p>Il giorno <span id="res-modal-day"></span> dalle ore <span id="res-modal-start"></span> alle ore <span id="res-modal-end"></span></p>
+              <p>hai prenotato l'evento: <span id="res-modal-title"></span> -  <span id="res-modal-desc"></span></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+              <button type="button" class="btn btn-danger" id="res-send">Disdici</button>
             </div>
           </div>
         </div>

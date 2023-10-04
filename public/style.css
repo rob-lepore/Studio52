@@ -43,6 +43,18 @@ a.fc-event {
     border-color: darkcyan;
 }
 
+.reserved-event {
+    border-color: black;
+    border-width: 10px;
+}
+
+.fc-daygrid-event-dot {
+    border: calc(var(--fc-daygrid-event-dot-width)/2) solid white;
+}
+
+.reserved-event .fc-daygrid-event-dot {
+    border: calc(var(--fc-daygrid-event-dot-width)/2) solid black;
+}
 @media screen and (max-width: 768px) {
     /* Stili specifici per dispositivi mobili */
     body {

@@ -26,8 +26,8 @@ document.querySelector("form").addEventListener("submit", e => {
         newEvent.start = document.querySelector("#day").value;
         newEvent.allDay = true;
     }else {
-        newEvent.start = document.querySelector("#day").value + "T" + document.querySelector("#start").value + ":00.000";
-        newEvent.end = document.querySelector("#day").value + "T" + document.querySelector("#end").value  + ":00.000";
+        newEvent.start = document.querySelector("#day").value + "T" + document.querySelector("#start").value + ":00.000+02:00";
+        newEvent.end = document.querySelector("#day").value + "T" + document.querySelector("#end").value  + ":00.000+02:00";
         newEvent.allDay = false;
         switch(selectedValue) {
             case "Produzione": newEvent.classNames = "prod-event"; break;

@@ -11,7 +11,7 @@
 <body>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 offset-md-3 my-2">
                 <div class="card">
                     <div class="card-header">
                         <h2>Profilo Utente</h2>
@@ -26,6 +26,16 @@
                             <button class="btn btn-danger" onclick="logout()">Esci dal profilo</button>
                             <a class="btn btn-link mt-2" href="/">Vai al calendario</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Prenotazioni attive</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul id="events-list"></ul>
                     </div>
                 </div>
             </div>

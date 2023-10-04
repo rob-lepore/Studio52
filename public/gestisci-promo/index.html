@@ -68,11 +68,6 @@
                                 <textarea class="form-control" id="description" rows="3"
                                     placeholder="Inserisci una descrizione"></textarea>
                             </div>
-                            <div class="form-group">
-                                <h4>Artista scelto:
-                                    <b><span id="chosen-artist"></span></b>
-                                </h4>
-                            </div>
                             <div class="d-flex justify-content-between mb-2" id="foot">
                                 <button type="submit" class="btn btn-primary">Salva Modifiche</button>
                                 <a class="btn btn-danger" id="deleteButton">Elimina</a>
@@ -85,11 +80,12 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Disponibilità</h2>
+                        <h2>Prenotazione</h2>
                     </div>
                     <div class="card-body">
+                        <h3 class="d-none" id="available-title">Slot ancora libero</h3>
                         <ul class="list-group" id="artistList">
-                            <!-- Lista degli artisti viene generata dinamicamente -->
+                            
                         </ul>
                     </div>
                 </div>

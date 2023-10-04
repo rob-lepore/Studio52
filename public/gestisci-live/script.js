@@ -46,7 +46,7 @@ document.querySelector("form").addEventListener("submit", e => {
         allDay: true,
         classNames: "live-event",
     }
-    fetch("/api/events/update/" + id, {
+    fetch(`/api/events/${id}/update`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ document.querySelector("#deleteButton").addEventListener("click", (e) => {
 })
 
 function getEventInfos() {
-    fetch("/api/events/infos?id=" + id).then(res => res.json()).then(data => {
+    fetch(`/api/events/${id}`).then(res => res.json()).then(data => {
         document.querySelector("#title").value = data.title;
         document.querySelector("#day").value = data.start.substring(0, 10);
         document.querySelector("#description").value = data.description;
