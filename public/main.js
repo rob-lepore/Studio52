@@ -42,10 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
             month: "mese",
             week: "settimana",
         },
+        
         validRange: {
             start: new Date(), // Imposta l'inizio dell'intervallo valido alla data odierna
             end: '9999-12-31'  // Imposta la fine dell'intervallo valido a una data futura molto lontana
         },
+        
         events: "/api/events/all",
         eventClick: (info) => {
             document.querySelector("#promo-name").value = "";

@@ -11,7 +11,7 @@
 <body>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6 offset-md-3 offset-md-3 my-2">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h2>Profilo Utente</h2>
@@ -29,13 +29,43 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6" id="promo-card">
                 <div class="card">
                     <div class="card-header">
                         <h2>Prenotazioni attive</h2>
                     </div>
                     <div class="card-body">
                         <ul id="events-list"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="live-card">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Live assegnati</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul id="live-list"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-none" id="dash-card">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Dashboard</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li><b>Utenti registrati</b>: <span id="n-users"></span></li>
+                            <li><b>Eventi totali</b>: <span id="n-events"></span></li>
+                            <li><b>Eventi futuri</b>: <span id="n-future"></span></li>
+                            <li><b>Prenotazioni fatte</b>: <span id="n-res"></span></li>
+                            <li><b>Disposizioni date</b>: <span id="n-disp"></span></li>
+                            
+                            
+                            
+                            
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -58,6 +58,13 @@ const compactEvents = (events) => {
   return compactedEvents;
 }
 
+
+
+app.get("/api/users", async (req, res) => {
+  const users = await User.find({});
+  res.json({n: users.filter(u => !u.isAdmin).length})
+})
+
 /**
  * POST /api/users/create: create a new user
  */
@@ -66,7 +73,7 @@ app.post("/api/users/create", (req, res) => {
     const { username, phone, email, password } = req.body;
 
     bcrypt.genSalt(10).then(salt => bcrypt.hash(password, salt)).then(async hash => {
-      const newUser = new User({ username, phone, email, password: hash, isAdmin: false });
+      const newUser = new User({ username, phone, email: email.toLowerCase().trim(), password: hash, isAdmin: false });
       try {
         await newUser.save();
         res.cookie("user_id", newUser._id.toString());
@@ -92,7 +99,7 @@ app.post("/api/users/login", async (req, res) => {
     const { email, password } = req.body;
 
     // Cerca un utente con l'email fornita nel database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       return res.status(400).json({ message: 'Utente non trovato' });
     }

@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -22,8 +23,10 @@ a.fc-event {
 .color-circle {
     width: 1rem;
     height: 1rem;
-    border-radius: 50%; /* Per rendere il colore un cerchio */
-    margin-right: 2px;  /*Spazio tra il colore e il testo */
+    border-radius: 50%;
+    /* Per rendere il colore un cerchio */
+    margin-right: 2px;
+    /*Spazio tra il colore e il testo */
 }
 
 
@@ -43,9 +46,11 @@ a.fc-event {
     border-color: darkcyan;
 }
 
-.reserved-event {
+.fc-timegrid-event.reserved-event {
     border-color: black;
-    border-width: 10px;
+    border-width: 2px;
+    border-style: dashed;
+    padding: 2px;
 }
 
 .fc-daygrid-event-dot {
@@ -55,9 +60,10 @@ a.fc-event {
 .reserved-event .fc-daygrid-event-dot {
     border: calc(var(--fc-daygrid-event-dot-width)/2) solid black;
 }
+
 @media screen and (max-width: 768px) {
-    /* Stili specifici per dispositivi mobili */
+
     body {
-      font-size: 12px;
+        font-size: 12px;
     }
-  }
+}

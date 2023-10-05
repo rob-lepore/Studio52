@@ -1,9 +1,34 @@
+#main {
+    margin-top: 2rem;
+}
+
+.row {
+    row-gap: 1rem;
+}
+
+.prod-li {
+    color: purple;
+}
+
+.work-li {
+    color: orangered;
+}
+
+.video-li {
+    color: darkcyan;
+}
+
+
 @media screen and (max-width: 768px) {
     body {
         font-size: 14px;
     }
+
     #foot {
-        justify-content: space-between;
         flex-direction: column;
     }
-  }
+
+    #main {
+        margin-top: 1rem;
+    }
+}
