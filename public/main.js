@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector("#promo-start").max = timeEnd;
                 document.querySelector("#promo-end").min = timeStart;
                 document.querySelector("#promo-end").max = timeEnd;
-                //input.validity.valid
 
                 myModal.toggle();
             } else {
@@ -187,6 +186,7 @@ function deleteDispo(artistId, eventId) {
 
 
 document.querySelector("#promo-send").addEventListener("click", (e) => {
+    console.log(e)
     e.preventDefault();
     const name = document.querySelector("#promo-name").value;
     const eventId = document.querySelector("#promo-modal-id").textContent
@@ -211,7 +211,7 @@ document.querySelector("#promo-send").addEventListener("click", (e) => {
         body: JSON.stringify({
             name,
             start,
-            end,
+            end
         }),
     }).then(res => res.json()).then(data => {
         alert(data.message);

@@ -351,12 +351,20 @@ app.post('/api/events/:eventId/add-reservation', async (req, res) => {
 
     const T0 = existingEvent.start;
     const T3 = existingEvent.end;
+
+    let date = existingEvent.start.toISOString().substring(0,11);
+    let T1 = new Date(date + start + ":00.000+02:00")
+    let T2 = new Date(date + end + ":00.000+02:00")
+    /*
     const T1 = new Date(existingEvent.start);
     T1.setHours(start.split(":")[0]);
     T1.setMinutes(start.split(":")[1]);
     const T2 = new Date(existingEvent.start);
     T2.setHours(end.split(":")[0]);
     T2.setMinutes(end.split(":")[1]);
+    */
+    console.log({T0, T1, T2, T3})
+
 
     const event2 = new Event({
       title: existingEvent.title,
