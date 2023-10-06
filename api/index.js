@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 
 const app = express();
 app.use(express.static("public"));
@@ -9,7 +10,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-mongoose.connect('mongodb+srv://robertoleporerl:wNRTFSu8C49Jzbm4@calendario.0ou86bp.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(`mongodb+srv://robertoleporerl:${process.env.DB_PASSWORD}@calendario.0ou86bp.mongodb.net/?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
