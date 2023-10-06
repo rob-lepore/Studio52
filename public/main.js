@@ -7,6 +7,9 @@ fetch("/api/users/is-logged-in").then(res => res.json()).then(data => {
             admin = user.isAdmin;
             if (admin) document.querySelector("#new-event-a").classList.remove("d-none")
         })
+    } else {
+        document.querySelector("#foot-link").textContent = "Accedi"
+        document.querySelector("#foot-link").href = "/accedi"
     }
     logged = data.ok;
 })
