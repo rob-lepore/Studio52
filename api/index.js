@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
@@ -18,6 +20,14 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Errore nella connessione al database:'));
 db.once('open', () => {
   console.log('Connesso al database MongoDB');
+});
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "comunicazioni.studio52@gmail.com",
+    pass: `${process.env.MAIL_PASSWORD}`,
+  },
 });
 
 const port = process.env.PORT || 4000
@@ -77,6 +87,7 @@ app.post("/api/users/create", (req, res) => {
       const newUser = new User({ username, phone, email: email.toLowerCase().trim(), password: hash, isAdmin: false });
       try {
         await newUser.save();
+
         res.cookie("user_id", newUser._id.toString());
         res.status(200).json(newUser);
       } catch (err) {
@@ -111,8 +122,10 @@ app.post("/api/users/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Password errata' });
     }
+
     res.cookie("user_id", user._id.toString());
     res.status(200).json({ message: 'Accesso consentito' });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Errore durante il tentativo di accesso' });
@@ -148,6 +161,15 @@ app.get("/api/users/infos", async (req, res) => {
 })
 
 /**
+ * 
+ * @param {Date} date 
+ * @returns 
+ */
+function formatDate(date) {
+  return date.getDate().toString().padStart(2,"0") + "/" + date.getMonth().toString().padStart(2,"0") + "/" + date.getFullYear().toString();
+}
+
+/**
  * POST /api/events/create: creates a new event
  */
 app.post('/api/events/create', async (req, res) => {
@@ -157,7 +179,27 @@ app.post('/api/events/create', async (req, res) => {
     const newEvent = new Event(eventData);
     await newEvent.save();
 
-    // Restituisci il nuovo evento creato come risposta JSON
+    const users = await User.find({isAdmin: false});
+    for (let user of users) {
+      
+        const mailOptions = {
+          from: '"Studio52" <comunicazioni.studio52@gmail.com>',
+          to: `${user.email}`,
+          subject: 'Nuovo evento aggiunto!',
+          //text: 'Ciao! Studio52 ha aggiunto un nuovo evento al calendario!'
+          html: `<p>Ciao ${user.username}! Studio52 ha aggiunto l'evento <b>${newEvent.title}</b> (${formatDate(newEvent.start)}) al <a href="https://studio52.vercel.app/">calendario</a>!</p>
+                <p>Accedi per comunicare la tua disponibilità e vedere tutti gli altri eventi in programma!</p>`
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log('Errore nell\'invio dell\'email: ' + error);
+          } else {
+            console.log('Email inviata con successo: ' + info.response);
+          }
+        });
+        
+    }
+    
     res.status(200).json(newEvent);
   } catch (error) {
     console.error(error);
@@ -207,6 +249,34 @@ app.get("/api/events/:eventId/add-artist", async (req, res) => {
 
   await event.save();
 
+  const admins = await User.find({isAdmin: true});
+  for (let admin of admins) {
+    
+      const mailOptions = {
+        from: '"Studio52" <comunicazioni.studio52@gmail.com>',
+        to: `${admin.email}`,
+        subject: 'Nuova disponibilità',
+        //text: 'Ciao! Studio52 ha aggiunto un nuovo evento al calendario!'
+        html: `<p>Ciao ${admin.username}!</p>
+              <p>Qualcuno si è reso disponibile per un live:</p>
+              <ul>
+                <li>Nome: ${name}</li>
+                <li>Telefono: ${user.phone}</li>
+                <li>Evento: ${event.title} </li>
+                <li>Data: ${formatDate(event.start)} </li>
+              </ul>
+              <p><a href="https://studio52.vercel.app/">Accedi</a> per gestire le prenotazioni!</p>`
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log('Errore nell\'invio dell\'email: ' + error);
+        } else {
+          console.log('Email inviata con successo: ' + info.response);
+        }
+      });
+      
+  }
+
   res.json({ message: "Hai comunicato la tua disponibilità!" });
 })
 
@@ -245,7 +315,7 @@ app.put('/api/events/:eventId/update', async (req, res) => {
 });
 
 /**
- * PUT /api/events/:eventId/set-chosen: changes the event by id
+ * PUT /api/events/:eventId/set-chosen: chooses an artist for the event (live)
  */
 app.put('/api/events/:eventId/set-chosen', async (req, res) => {
   try {
@@ -260,13 +330,37 @@ app.put('/api/events/:eventId/set-chosen', async (req, res) => {
       return res.status(404).json({ error: 'Evento non trovato' });
     }
 
+    let chosenId;
+    let chosenArtist;
     // Imposta chosen a false per tutti gli artisti tranne quello specificato
     event.artists.forEach((artist) => {
       artist.chosen = artist._id.toString() === artistIdToKeep;
+      if(artist.chosen) {
+        chosenId = artist.userId;
+        chosenArtist = artist;
+      }
     });
 
     // Salva l'evento aggiornato nel database
     await event.save();
+    const chosen = await User.findById(chosenId);
+    console.log(chosen);
+
+    const mailOptions = {
+      from: '"Studio52" <comunicazioni.studio52@gmail.com>',
+      to: `${chosen.email}`,
+      subject: 'Conferma Live',
+      //text: 'Ciao! Studio52 ha aggiunto un nuovo evento al calendario!'
+      html: `<p>Ciao ${chosen.username}! Studio52 ti ha selezionato per l'evento <b>${event.title}</b> (${formatDate(event.start)}) come band/artista <b>${chosenArtist.name}</b>!</p>
+            <p>Visita il <a href="https://studio52.vercel.app/">calendario</a> per scoprire di più.</p>`
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log('Errore nell\'invio dell\'email: ' + error);
+      } else {
+        console.log('Email inviata con successo: ' + info.response);
+      }
+    });
 
     // Restituisci una risposta di successo
     res.status(200).json({ message: 'Stato chosen aggiornato con successo' });
@@ -363,14 +457,7 @@ app.post('/api/events/:eventId/add-reservation', async (req, res) => {
     let date = existingEvent.start.toISOString().substring(0,11);
     let T1 = new Date(date + start + ":00.000+02:00")
     let T2 = new Date(date + end + ":00.000+02:00")
-    /*
-    const T1 = new Date(existingEvent.start);
-    T1.setHours(start.split(":")[0]);
-    T1.setMinutes(start.split(":")[1]);
-    const T2 = new Date(existingEvent.start);
-    T2.setHours(end.split(":")[0]);
-    T2.setMinutes(end.split(":")[1]);
-    */
+
     console.log({T0, T1, T2, T3})
 
 
@@ -412,6 +499,36 @@ app.post('/api/events/:eventId/add-reservation', async (req, res) => {
     }
     await event2.save();
     await Event.findByIdAndRemove(eventId);
+
+    const admins = await User.find({isAdmin: true});
+    for (let admin of admins) {
+      
+        const mailOptions = {
+          from: '"Studio52" <comunicazioni.studio52@gmail.com>',
+          to: `${admin.email}`,
+          subject: 'Nuova prenotazione',
+          //text: 'Ciao! Studio52 ha aggiunto un nuovo evento al calendario!'
+          html: `<p>Ciao ${admin.username}!</p>
+                <p>Qualcuno ha prenotato una promo:</p>
+                <ul>
+                  <li>Nome: ${name}</li>
+                  <li>Telefono: ${user.phone}</li>
+                  <li>Evento: ${existingEvent.title} </li>
+                  <li>Data: ${formatDate(existingEvent.start)}</li>
+                  <li>Dalle: ${T1.getHours().toString().padStart(2, "0") + ":" + T1.getMinutes().toString().padStart(2, "0")}</li>
+                  <li>Alle: ${T2.getHours().toString().padStart(2, "0") + ":" + T2.getMinutes().toString().padStart(2, "0")}</li>
+                </ul>
+                <p><a href="https://studio52.vercel.app/">Accedi</a> per gestire le prenotazioni!</p>`
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log('Errore nell\'invio dell\'email: ' + error);
+          } else {
+            console.log('Email inviata con successo: ' + info.response);
+          }
+        });
+        
+    }
 
     return res.status(200).json({ message: 'Prenotazione completata con successo' });
   } catch (error) {

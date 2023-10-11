@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         themeSystem: "bootstrap5",
         height: "70vh",
         locale: "it",
+        firstDay: 1,
         initialView: 'dayGridMonth',
         multiMonthMaxColumns: 1, // force a single column
         editable: false,
