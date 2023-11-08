@@ -57,7 +57,7 @@ fetch("/api/users/is-logged-in").then(res => res.json()).then(data => {
                 }).forEach(e => {
                     let found = false;
                     for (let a of e.artists) {
-                        found |= a.userId == user._id;
+                        if(a.userId == user._id && a.chosen) found = true;
                     }
                     if (found) {
 
